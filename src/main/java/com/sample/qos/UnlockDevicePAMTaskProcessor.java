@@ -21,7 +21,7 @@ public class UnlockDevicePAMTaskProcessor extends RouteBuilder {
 		.to("direct:updatePhoneUnlockDB");
 		
 		from("direct:updatePhoneUnlockDB")
-		.log("Body content is : ${body}")
+		.log("******* Device unlock issue FIXED for phone number : ${body} *******")
 		.setBody(simple("update account_closed Set phoneunlocked=true where phoneno = ${body} "))
 		.to("direct:callJDBC");
 	}

@@ -23,27 +23,24 @@ public class UnlockDeviceProcessor extends RouteBuilder {
 
 		from("kafka:unlock-phone?brokers=localhost:9092" +
 				"&seekTo=beginning")
-		.log("******* Device Unlocked : ${body} *******")
+		
 		.process(new Processor() {
 
 			@Override
 			public void process(Exchange exchange) throws Exception {
-
 				ProducerTemplate template = exchange.getContext().createProducerTemplate();
 
 				String phoneno = exchange.getIn().getBody(String.class);
 
-
-				System.out.println(phoneno);
+				System.out.println("******* Device unlock STARTED for phone number : "+phoneno+" *******");
 
 				if("6508621000".equals(phoneno)) {
 				
 					String sqlstr = "update account_closed Set phoneunlocked=true where phoneno = "+phoneno;
 					template.requestBody("direct:callJDBC", sqlstr);
-
+					System.out.println("******* Device unlock DONE for phone number : "+phoneno+" *******");
 				}else if("6508621001".equals(phoneno)) {
 					System.out.println("XXXXXX Issue while unlocking the phoneno : "+phoneno + " XXXXXX");
-							
 					throw new Exception();
 				} 
 

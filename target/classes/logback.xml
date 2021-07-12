@@ -10,7 +10,9 @@
     </encoder>
   </appender>
 
-  <root level="info">
+ <logger name="com.sample.qos" level="INFO" /> 
+ 
+  <root level="error">
     <appender-ref ref="STDOUT" />
   </root>
 
