@@ -1,5 +1,7 @@
 package com.sample.qos;
 
+import java.sql.Timestamp;
+
 import javax.sql.DataSource;
 
 import org.apache.camel.Exchange;
@@ -75,7 +77,8 @@ public class InitCloseAccount extends RouteBuilder {
 				CloseAccountModel readValue = exchange.getIn().getBody(CloseAccountModel.class);
 				ProducerTemplate template = exchange.getContext().createProducerTemplate();
 				
-				String sqlstr = "insert into account_close values('"+readValue.getPhoneno()+"',"+readValue.getUnlock()+","+readValue.geteDelivery()+",'"+readValue.getFinalamount()+"',false,false);";
+				String sqlstr = "insert into account_closed values('"+readValue.getPhoneno()+"',"+readValue.getUnlock()
+				+",false,"+readValue.geteDelivery()+",'"+readValue.getFinalamount()+"',false,false,false,'"+new Timestamp(System.currentTimeMillis()).toString()+"');";
 				template.requestBody("direct:callJDBC", sqlstr);
 				System.out.println(sqlstr);
 				System.out.println("*** Stored Final bill details in Database ***");
