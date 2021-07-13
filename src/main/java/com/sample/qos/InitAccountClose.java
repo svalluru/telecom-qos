@@ -5,7 +5,7 @@ import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UnlockDevicePAMTaskProcessor extends RouteBuilder {
+public class InitAccountClose extends RouteBuilder {
 
 	@Override
 	public void configure() throws Exception {
@@ -14,16 +14,12 @@ public class UnlockDevicePAMTaskProcessor extends RouteBuilder {
 		.bindingMode(RestBindingMode.json);
 
 		
-		
 		rest()
-		.post("/phoneunlocked")
+		.post("/accountclose")
 		.produces("application/json")
-		.to("direct:updatePhoneUnlockDB");
+		.consumes("application/json")
+		.to("kafka:close-account?brokers=localhost:9092");
 		
-		from("direct:updatePhoneUnlockDB")
-		.log("\n\n*** Device unlock issue FIXED for phone number : ${body} ***")
-		.setBody(simple("update account_closed Set phoneunlocked=true where phoneno = ${body} "))
-		.to("direct:callJDBC");
 	}
 	
 

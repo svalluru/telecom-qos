@@ -41,7 +41,7 @@ public class FinalBillVerifier extends RouteBuilder {
 				for (HashMap<String,Object> hashMap : dbResult) {
 					String phoneno = (String) hashMap.get("phoneno");
 					//send kafka message and then update DB
-					System.out.println(phoneno);
+					//System.out.println(phoneno);
 					
 					boolean unlockreq = (boolean) hashMap.get("unlockphone");
 					if(unlockreq) {
@@ -52,11 +52,11 @@ public class FinalBillVerifier extends RouteBuilder {
 					
 					String updateProc = "update account_closed Set finalbillnotificationsent=true where phoneno = '"+phoneno+"'";
 					template.requestBody("direct:callJDBC", updateProc);
+					
+					System.out.println("\n\n*** Final bill notification sent for phone number : " + phoneno +". ***");
 				}
 			}
 		});
-		
-		
 		
 	}
 

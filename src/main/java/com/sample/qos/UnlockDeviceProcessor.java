@@ -32,24 +32,20 @@ public class UnlockDeviceProcessor extends RouteBuilder {
 
 				String phoneno = exchange.getIn().getBody(String.class);
 
-				System.out.println("******* Device unlock STARTED for phone number : "+phoneno+" *******");
+				System.out.println("\n\n*** Device unlock STARTED for phone number : "+phoneno+" ***");
 
 				if("6508621000".equals(phoneno)) {
 				
 					String sqlstr = "update account_closed Set phoneunlocked=true where phoneno = "+phoneno;
 					template.requestBody("direct:callJDBC", sqlstr);
-					System.out.println("******* Device unlock DONE for phone number : "+phoneno+" *******");
+					System.out.println("\n\n*** Device unlock DONE for phone number : "+phoneno+" ***");
 				}else if("6508621001".equals(phoneno)) {
-					System.out.println("XXXXXX Issue while unlocking the phoneno : "+phoneno + " XXXXXX");
+					System.out.println("\n\nXXXXXX Issue while unlocking the phoneno : "+phoneno + " XXXXXX");
 					throw new Exception();
 				} 
 
 			}
 		});
-		//.setBody(simple("update account_closed Set phoneunlocked=true where phoneno = ${body} "))
-		//.to("direct:callJDBC");
-
-
 
 	}
 
