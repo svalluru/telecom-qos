@@ -14,11 +14,11 @@ public class AccountClosedProcessor extends RouteBuilder {
 		.setHeader("phoneno", simple("${body}"))
 		.setBody(simple("update account_closed Set accountclosed=true where phoneno = ${body} "))
 		.to("direct:callJDBC")
-		.log("*** Account closed for phone number ${in.header.phoneno} ***")
+		.log("\n\n*** Account closed for phone number ${in.header.phoneno} ***\n\n")
 		.to("direct:sendemail");
 
 		from("direct:sendemail")
-		.log("From : noreply@telecom.com\n"
+		.log("\n\nFrom : noreply@telecom.com\n"
 				+ "To : customer@yahoo.com\n"
 				+ "\n"
 				+ "Subject : Account closed for phone number ${in.header.phoneno}\n"

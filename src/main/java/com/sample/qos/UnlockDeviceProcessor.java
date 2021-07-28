@@ -63,7 +63,7 @@ public class UnlockDeviceProcessor extends RouteBuilder {
 				
 				}else if("6508621001".equals(phoneno)) {
 					
-					String sqlstr = "update account_closed Set status='Unlock Failed' where phoneno = "+phoneno;
+					String sqlstr = "update account_closed Set comments='Unlock Failed' where phoneno = "+phoneno;
 					template.requestBody("direct:callJDBC", sqlstr);
 					System.out.println("\n\nXXXXXX Issue while unlocking the phoneno : "+phoneno + " XXXXXX");
 					throw new Exception();

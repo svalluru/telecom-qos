@@ -64,22 +64,44 @@ public class AccountClosedStatus extends RouteBuilder {
 				List<CloseAccountModel> respList = new ArrayList<CloseAccountModel>();
 				for (HashMap<String,Object> hashMap : dbResult) {
 					String phoneno = (String) hashMap.get("phoneno");
-					String status = (String) hashMap.get("status");
+					String comments = (String) hashMap.get("comments");
 					boolean unlockreq = (boolean) hashMap.get("unlockphone");
+					boolean accountclosed = (boolean) hashMap.get("accountclosed");
+					boolean phoneunlocked = (boolean) hashMap.get("phoneunlocked");
+					boolean eDelivery = (boolean) hashMap.get("eDelivery");
 					CloseAccountModel model = new CloseAccountModel();
 					model.setPhoneno(phoneno);
-					model.setStatus(status);
-					model.setUnlock(String.valueOf(unlockreq));
+					
+					if(accountclosed) {
+						model.setStatus("Closed");	
+					} else {
+						model.setStatus("In Progress");
+					}
+					
+					if(unlockreq) {
+						model.setUnlock("Unlock In Progress");	
+					} 
+					
+					if(comments.contains("Failed"))
+					{
+						model.setUnlock("X Unlock Failed X");
+					}
+					
+					if(phoneunlocked) {
+						model.setUnlock("Unlock Done!");
+					}
+					
+					if(eDelivery) {
+						model.setComments("Opt-In");	
+					}else {
+						model.setComments("Opt-Out");
+					}
 
-					ObjectMapper om = new ObjectMapper();
-					om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-					String jsonValue = om.writeValueAsString(model);
 					respList.add(model);
 				}
 				exchange.getIn().setBody(respList);	
 			}
 		})
-		//.marshal().json(JsonLibrary.Jackson)
 		;
 
 

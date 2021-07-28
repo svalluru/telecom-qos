@@ -31,6 +31,8 @@ public class CloseAccountModel {
 	private String finalamount;
 	@JsonProperty("status")
 	private String status;
+	@JsonProperty("comments")
+	private String comments;
 
 	@JsonProperty("finalamount")
 	public String getFinalamount() {
@@ -90,6 +92,16 @@ public class CloseAccountModel {
 	@JsonProperty("status")
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	@JsonProperty("comments")
+	public String getComments() {
+		return comments;
+	}
+
+	@JsonProperty("comments")
+	public void setComments(String comments) {
+		this.comments = comments;
 	}
 
 }
