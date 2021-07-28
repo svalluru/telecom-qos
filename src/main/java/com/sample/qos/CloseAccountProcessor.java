@@ -21,7 +21,7 @@ import com.sample.qos.kafka.models.CloseAccountModel;
  * {
 	"phoneno" : "6508621000",
 	"unlock" : "true",
-	"eDelivery : "true"
+	"eDelivery" : "true"
 }
  * @author svalluru
  *
@@ -60,16 +60,16 @@ public class CloseAccountProcessor extends RouteBuilder {
 				om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 				CloseAccountModel readValue = om.readValue(jsonBody, CloseAccountModel.class);
 
+				readValue.setFinalamount("76.00");
 
 				String emailContent = "From : noreply@telecom.com\n"
 						+ "To : customer@yahoo.com\n"
 						+ "\n"
-						+ "Subject : Final Bill for account 6508621000\n"
+						+ "Subject : Final Bill for account "+ readValue.getPhoneno()
 						+ "\n"
 						+ "Total Due Amount : $76\n"
 						+ "";
-				readValue.setFinalamount("76.00");
-				System.out.println("\n\nSent email with Final Bill Details \n\n************ \n" + emailContent +"\n************ ");
+				System.out.println("\n\nSent email with Final Bill Details \n\n************ \n" + emailContent +"\n************ \n\n\n");
 
 
 				exchange.getIn().setBody(readValue);
@@ -89,7 +89,7 @@ public class CloseAccountProcessor extends RouteBuilder {
 				ProducerTemplate template = exchange.getContext().createProducerTemplate();
 
 				String sqlstr = "insert into account_closed values('"+readValue.getPhoneno()+"',"+readValue.getUnlock()
-				+",false,"+readValue.geteDelivery()+",'"+readValue.getFinalamount()+"',false,false,false,'"+new Timestamp(System.currentTimeMillis()).toString()+"');";
+				+",false,"+readValue.geteDelivery()+",'"+readValue.getFinalamount()+"',false,false,false,'"+new Timestamp(System.currentTimeMillis()).toString()+"','NA');";
 				template.requestBody("direct:callJDBC", sqlstr);
 				//System.out.println(sqlstr);
 				System.out.println("\n\n*** Stored Final bill details in Database ***");

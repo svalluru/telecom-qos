@@ -10,9 +10,11 @@
     </encoder>
   </appender>
 
- <logger name="com.sample.qos" level="INFO" /> 
+ <logger name="com.sample.qos" level="INFO" />
+ <logger name="org.apache.kafka" level="ERROR" /> 
  
-  <root level="error">
+ 
+  <root level="INFO">
     <appender-ref ref="STDOUT" />
   </root>
 

@@ -84,7 +84,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-undertow</artifactId>
+			<artifactId>camel-undertow-starter</artifactId>
 		</dependency>
 	</dependencies>
 	<repositories>

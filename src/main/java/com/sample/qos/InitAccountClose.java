@@ -15,7 +15,7 @@ public class InitAccountClose extends RouteBuilder {
 
 		
 		rest()
-		.post("/accountclose")
+		.get("/accountclose")
 		.produces("application/json")
 		.consumes("application/json")
 		.to("kafka:close-account?brokers=localhost:9092");
