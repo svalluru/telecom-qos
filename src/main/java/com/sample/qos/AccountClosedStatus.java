@@ -88,7 +88,7 @@ public class AccountClosedStatus extends RouteBuilder {
 					}
 					
 					if(phoneunlocked) {
-						model.setUnlock("Unlock Done!");
+						model.setUnlock("Unlock Done");
 					}
 					
 					if(eDelivery) {

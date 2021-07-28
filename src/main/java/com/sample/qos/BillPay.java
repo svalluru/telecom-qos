@@ -8,7 +8,7 @@ import org.apache.camel.model.rest.RestPropertyDefinition;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UnlockDevicePAMTaskProcessor extends RouteBuilder {
+public class BillPay extends RouteBuilder {
 
 	@Override
 	public void configure() throws Exception {
@@ -36,13 +36,15 @@ public class UnlockDevicePAMTaskProcessor extends RouteBuilder {
 		
 		
 		rest()
-		.post("/phoneunlocked")
+		.post("/billpay")
 		.produces("application/json")
-		.to("direct:updatePhoneUnlockDB");
+		.consumes("application/json")
+		.to("direct:updateBillPaid")
+		.route().setBody(simple("Bill Paid"));
 		
-		from("direct:updatePhoneUnlockDB")
-		.log("\n\n*** Device unlock issue FIXED for phone number : ${body} ***")
-		.setBody(simple("update account_closed Set phoneunlocked=true where phoneno = ${body} "))
+		from("direct:updateBillPaid")
+		.log("\n\n*** Final Bill paid for phone number : "+ simple("${body}")+" ***")
+		.setBody(simple("update account_closed Set finalamountpaid=true where phoneno = ${body} "))
 		.to("direct:callJDBC");
 	}
 	
