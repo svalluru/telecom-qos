@@ -22,9 +22,9 @@ public class CloseAccountModel {
 	@JsonProperty("phoneno")
 	private String phoneno;
 	@JsonProperty("unlock")
-	private String unlock;
+	private String unlock = "false";
 	@JsonProperty("eDelivery")
-	private String eDelivery;
+	private String eDelivery = "false";
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	@JsonProperty("finalamount")

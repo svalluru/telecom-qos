@@ -24,41 +24,36 @@ public class AccountClosedStatus extends RouteBuilder {
 	public void configure() throws Exception {
 
 		RestPropertyDefinition corsAllowedHeaders = new RestPropertyDefinition();
+		corsAllowedHeaders.setKey("Access-Control-Allow-Origin");
+		corsAllowedHeaders.setValue("*");
+
+		corsAllowedHeaders.setKey("Access-Control-Allow-Methods");
+		corsAllowedHeaders.setValue("GET, HEAD, POST,PUT, DELETE, TRACE, OPTIONS, CONNECT, PATCH");
+
 		corsAllowedHeaders.setKey("Access-Control-Allow-Headers");
 		corsAllowedHeaders.setValue("Origin, Accept, X-Requested-With,Content-Type, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
 
 		ArrayList<RestPropertyDefinition> corslist = new ArrayList<RestPropertyDefinition>();
 		corslist.add(corsAllowedHeaders);
 		
-		restConfiguration().component("servlet")
+		restConfiguration().component("undertow")
 		.bindingMode(RestBindingMode.json)
-
+		.port(9377)
+	    .contextPath("/camel")
 		.enableCORS(true)
 		.setCorsHeaders(corslist);
-		//.corsHeaderProperty("Access-Control-Allow-Origin","*")
-		//.corsHeaderProperty("Access-Control-Allow-Headers","Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization")
-		;
 
-		rest()
-		.options("/accountclosestatus")
-		.route()
-		.setHeader("Access-Control-Allow-Origin", constant("*"))
-		.setHeader("Access-Control-Allow-Methods", constant("GET, HEAD, POST,PUT, DELETE, TRACE, OPTIONS, CONNECT, PATCH"))
-		.setHeader("Access-Control-Allow-Headers",constant("Origin, Accept, X-Requested-With, Content-Type,Access-Control-Request-Method, Access-Control-Request-Headers,Authorization"))
-		.setHeader("Allow", constant("GET, OPTIONS, POST, PATCH"));
 		
 		
 		rest()
 		.get("/accountclosestatus")
 		.produces("application/json")
 		.consumes("application/json")
+		.outTypeList(CloseAccountModel.class)
 		.to("direct:getstatus")
 		;
 
 		from("direct:getstatus")
-		.setHeader("Access-Control-Allow-Origin", constant("*"))        
-		.setHeader("Access-Control-Allow-Headers", constant("access-control-allow-methods,access-control-allow-origin,authorization,content-type"))        
-		.setHeader("Access-Control-Allow-Methods", constant("GET, DELETE, POST, OPTIONS, PUT"))
 		.process(new Processor() {
 			ProducerTemplate template = getContext().createProducerTemplate();
 			@Override
@@ -66,7 +61,7 @@ public class AccountClosedStatus extends RouteBuilder {
 				String selectStr = "select * from account_closed";
 				List<HashMap<String, Object>> dbResult = (List<HashMap<String, Object>>) template.requestBody("direct:callJDBC", selectStr);
 
-				List<String> respList = new ArrayList<String>();
+				List<CloseAccountModel> respList = new ArrayList<CloseAccountModel>();
 				for (HashMap<String,Object> hashMap : dbResult) {
 					String phoneno = (String) hashMap.get("phoneno");
 					String status = (String) hashMap.get("status");
@@ -79,13 +74,12 @@ public class AccountClosedStatus extends RouteBuilder {
 					ObjectMapper om = new ObjectMapper();
 					om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 					String jsonValue = om.writeValueAsString(model);
-					respList.add(jsonValue);
+					respList.add(model);
 				}
 				exchange.getIn().setBody(respList);	
 			}
 		})
-		.marshal().json(JsonLibrary.Jackson)
-		//.setHeader("Access-Control-Allow-Origin", constant("*"));
+		//.marshal().json(JsonLibrary.Jackson)
 		;
 
 
