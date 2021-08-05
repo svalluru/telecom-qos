@@ -1,8 +1,12 @@
 Pre-reqs : 
 
-- **Start MySQL DB** : docker run -p 3306:3306 --name=sri-mysql --env="MYSQL_ROOT_PASSWORD=mypassword" mysql
+- **Start MySQL DB** : 
+
+	 	docker run -p 3306:3306 --name=sri-mysql --env="MYSQL_ROOT_PASSWORD=mypassword" mysql
+	
 	Create below table : 
-		CREATE TABLE account_closed (
+	    
+	    CREATE TABLE account_closed (
 	    phoneno varchar(255),
 	    unlockphone boolean,
 	    phoneunlocked boolean,
@@ -16,11 +20,16 @@ Pre-reqs :
 		
 
 - **Start JBoss with PAM**
-	CD /Users/svalluru/EAP-7.3.0/bin and Start Jboss EAP standalone.sh -c standalone-full.xml
-	Go to PAM console : http://localhost:8080/business-central/kie-wb.jsp 
+	
+		CD /Users/svalluru/EAP-7.3.0/bin and Start Jboss EAP standalone.sh -c standalone-full.xml
+	
+		Go to PAM console : http://localhost:8080/business-central/kie-wb.jsp 
 	
 - **Start Kafka and HTTP Bridge** (Enable CORS)
-	Go to /Users/svalluru/Downloads/kafka-bridge-0.19.0/bin and ./kafka_bridge_run.sh --config-file=../config/application.properties
+	
+		Go to /Users/svalluru/Downloads/kafka-bridge-0.19.0/bin 
+		
+		./kafka_bridge_run.sh --config-file=../config/application.properties
 
 - Clone https://github.com/svalluru/telecom-qos-ui and start using "ng serve" then go to http://localhost:4200/
 
