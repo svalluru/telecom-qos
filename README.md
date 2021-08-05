@@ -43,6 +43,7 @@ For Unlock failed scenario :
 Add below property in application.properties : 
 	
 	management.endpoints.web.exposure.include=hawtio,jolokia
+	hawtio.authenticationEnabled=false
 
 Add below snippet in pom.xml : 
 	
@@ -50,10 +51,6 @@ Add below snippet in pom.xml :
 			<groupId>io.hawt</groupId>
 			<artifactId>hawtio-springboot</artifactId>
 		</dependency>
-
-Add VM args while running app : 
-
-	-Dhawtio.authenticationEnabled=false
 
 
 **Follow the below steps if you are not using UI to test it.**
