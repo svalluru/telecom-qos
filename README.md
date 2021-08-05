@@ -29,7 +29,7 @@ For Unlock failed scenario :
 
 	Start PAM task and complete it and check if the DB process is done or not.
 
-**Monitoring the Fuse / Camel : **
+**Monitoring the Fuse / Camel**
 
 Add below property in application.properties : 
 	
