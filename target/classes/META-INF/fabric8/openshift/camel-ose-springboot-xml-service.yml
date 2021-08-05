@@ -1,0 +1,25 @@
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  annotations:
+    fabric8.io/git-commit: "1b48ecc1e59fc4f49e991baf8c3b86091d0682c0"
+    fabric8.io/git-branch: "main"
+    fabric8.io/git-url: "https://github.com/svalluru/telecom-qos.git"
+    prometheus.io/port: "9779"
+    prometheus.io/scrape: "true"
+  labels:
+    app: "camel-ose-springboot-xml"
+    provider: "fabric8"
+    version: "1.0.0-SNAPSHOT"
+    group: "org.mycompany"
+  name: "camel-ose-springboot-xml"
+spec:
+  ports:
+  - port: 9311
+    protocol: "TCP"
+    targetPort: 9311
+  selector:
+    app: "camel-ose-springboot-xml"
+    provider: "fabric8"
+    group: "org.mycompany"

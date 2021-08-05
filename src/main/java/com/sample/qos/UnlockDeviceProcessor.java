@@ -55,20 +55,18 @@ public class UnlockDeviceProcessor extends RouteBuilder {
 
 				System.out.println("\n\n*** Device unlock STARTED for phone number : "+phoneno+" ***");
 
-				if("6508621000".equals(phoneno)) {
-				
-					String sqlstr = "update account_closed Set phoneunlocked=true where phoneno = "+phoneno;
-					template.requestBody("direct:callJDBC", sqlstr);
-					System.out.println("\n\n*** Device unlock DONE for phone number : "+phoneno+" ***");
-				
-				}else if("6508621001".equals(phoneno)) {
+				if("6508621001".equals(phoneno)) {
 					
 					String sqlstr = "update account_closed Set comments='Unlock Failed' where phoneno = "+phoneno;
 					template.requestBody("direct:callJDBC", sqlstr);
 					System.out.println("\n\nXXXXXX Issue while unlocking the phoneno : "+phoneno + " XXXXXX");
 					throw new Exception();
 					
-				} 
+				} else {
+					String sqlstr = "update account_closed Set phoneunlocked=true where phoneno = "+phoneno;
+					template.requestBody("direct:callJDBC", sqlstr);
+					System.out.println("\n\n*** Device unlock DONE for phone number : "+phoneno+" ***");
+				}
 
 			}
 		});

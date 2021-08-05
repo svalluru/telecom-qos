@@ -19,7 +19,7 @@ Pre-reqs :
 	CD /Users/svalluru/EAP-7.3.0/bin and Start Jboss EAP standalone.sh -c standalone-full.xml
 	Go to PAM console : http://localhost:8080/business-central/kie-wb.jsp 
 	
-- Start Kafka and HTTP Bridge
+- Start Kafka and HTTP Bridge (Enable CORS)
 	Go to /Users/svalluru/Downloads/kafka-bridge-0.19.0/bin and ./kafka_bridge_run.sh --config-file=../config/application.properties
 
 - Clone https://github.com/svalluru/telecom-qos-ui and start using "ng serve" then go to http://localhost:4200/
@@ -60,7 +60,19 @@ Start PAM task and complete it and check if the DB process is done or not.
 
 
 
+Monitoring the Fuse / Camel : 
 
+Add below property in application.properties : 
+	management.endpoints.web.exposure.include=hawtio,jolokia
 
+Add below snippet in pom.xml : 
+		<dependency>
+			<groupId>io.hawt</groupId>
+			<artifactId>hawtio-springboot</artifactId>
+		</dependency>
+
+Add VM args while running app : 
+
+	-Dhawtio.authenticationEnabled=false
 
 

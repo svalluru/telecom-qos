@@ -75,7 +75,7 @@ public class AccountClosedStatus extends RouteBuilder {
 					if(accountclosed) {
 						model.setStatus("Closed");	
 					} else {
-						model.setStatus("In Progress");
+						model.setStatus("Final Bill Unpaid");
 					}
 					
 					if(unlockreq) {

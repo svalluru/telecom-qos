@@ -39,8 +39,10 @@ public class BillPay extends RouteBuilder {
 		.post("/billpay")
 		.produces("application/json")
 		.consumes("application/json")
+		.route()
 		.to("direct:updateBillPaid")
-		.route().setBody(simple("Bill Paid"));
+		.setBody(simple("Bill Paid"))
+		;
 		
 		from("direct:updateBillPaid")
 		.log("\n\n*** Final Bill paid for phone number : "+ simple("${body}")+" ***")
