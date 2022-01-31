@@ -16,7 +16,7 @@ Pre-reqs :
 	    accountclosed boolean,
 	    finalbillnotificationsent boolean,
 	    daterequested varchar(255),
-	    comments varchar);
+	    comments varchar(255));
 		
 
 - **Start JBoss with PAM**
