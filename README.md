@@ -79,3 +79,36 @@ Put Below JSON message in close-account topic
 	"unlock" : "true",
 	"eDelivery" : "true"
 }
+
+Local steps : 
+cd /Users/svalluru/kafka_2.13-3.1.0
+
+bin/kafka-server-start.sh config/server.properties
+bin/zookeeper-server-start.sh config/zookeeper.properties
+
+Update kafka HTTP bridge port to 8680 and enable cors
+
+./kafka_bridge_run.sh --config-file=../config/application.properties
+
+
+cd /Users/svalluru/pam712/target/jboss-eap-7.4/bin
+./standalone.sh 
+
+podman machine start
+podman run -p 3306:3306 --name=sri-mysql --env="MYSQL_ROOT_PASSWORD=mypassword" mysql
+create table
+
+in telecom-qos-ui folder
+run npx ng serve
+
+Create PAM Admin user with username "rhpamAdmin" as it is used in Process Definition.
+Create server and deploy the app in server.
+
+cleanup steps : 
+
+truncate table account_closed
+clean messages in Kafka topics
+
+
+unlock failed number 6508627100
+
